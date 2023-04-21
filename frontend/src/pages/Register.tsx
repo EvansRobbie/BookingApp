@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState, FormEvent } from "react";
 import { Link } from "react-router-dom";
 
@@ -5,9 +6,24 @@ const Register = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    try{
+        await axios.post('/register', {
+             name,
+             email,
+             password,
+         })
+         alert('Registration Successful.')
+
+    } catch (e) {
+        alert('Registration Failed. Please try Again')
+    }
     setName("");
+    setPassword("")
+    setEmail('')
+
+   
   };
   return (
     <div className="relative top-0 left-0 flex grow flex-col items-center w-full justify-center h-screen -mt-16 ">

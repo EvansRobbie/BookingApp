@@ -8,6 +8,10 @@ import Login from './pages/Login'
 import { useEffect, useRef} from 'react'
 import Register from './pages/Register'
 import Home from './pages/Home'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://127.0.0.1:4000'
+axios.defaults.withCredentials =  true
 function App() {
   const { showModal, setShowModal} = useGlobalContext()
   const modalRef = useRef<HTMLDivElement | null>(null)
