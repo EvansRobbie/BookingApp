@@ -2,6 +2,7 @@
 import './App.css'
 import Modal from './components/Modal'
 import Navbar from './components/Navbar'
+import UserContextProvider from './context/UserContext'
 import { useGlobalContext } from './context/GlobalContext'
 import { Routes, Route} from 'react-router-dom'
 import Login from './pages/Login'
@@ -31,7 +32,9 @@ function App() {
     }, []);
   // console.log(showModal)
   return (
-    <div className="">
+    
+      <UserContextProvider>
+
       <Navbar/>
       { showModal && <Modal modalRef = {modalRef}/>}
       <Routes> 
@@ -39,7 +42,8 @@ function App() {
         <Route path= '/login' element={<Login/>}/>
         <Route path='/register' element = {<Register/>} />
       </Routes>
-    </div>
+    
+      </UserContextProvider>
   )
 }
 

@@ -1,8 +1,11 @@
 import React from 'react'
 import { useGlobalContext } from '../context/GlobalContext'
+import { useUserContext } from '../context/UserContext'
 
-const Navbar = () => {
-    const { showModal,handleModal}= useGlobalContext()
+const Navbar  = () => {
+    const { handleModal}= useGlobalContext()
+    const {user}= useUserContext()
+    // console.log(user?.name)
     
     // console.log(showModal)
   return (
@@ -42,6 +45,11 @@ const Navbar = () => {
                 </svg>
 
                 </div>
+                {!!user && (
+                    <div>
+                        {user.name}
+                    </div>
+                )}
             </div>
         </header>
     </div>
