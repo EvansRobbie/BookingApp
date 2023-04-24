@@ -1,4 +1,4 @@
-import React from 'react'
+import {Link} from 'react-router-dom'
 import { useGlobalContext } from '../context/GlobalContext'
 import { useUserContext } from '../context/UserContext'
 
@@ -11,7 +11,7 @@ const Navbar  = () => {
   return (
     <div className='fixed top-0 left-0 opacity-100 w-full h-20 px-8 z-10'>
         <header className='flex  items-center justify-between h-full w-full'>
-            <div className=" flex items-center gap-1">
+            <Link to='/' className=" flex items-center gap-1">
                 <div className=" -rotate-90 text-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
@@ -19,7 +19,7 @@ const Navbar  = () => {
                 </div>
                 <span className='font-bold text-2xl text-primary'>airbnb</span>
                 
-            </div>
+            </Link>
             <div className='flex items-center border rounded-full py-1.5 px-6 gap-3 shadow shadow-gray-300 hover:shadow-xl overflow-hidden'>
                 <div className='text-base font-semibold'>Anywhere</div>
                 <div className=' border-l border-gray-300 font-light border  h-6 ' />

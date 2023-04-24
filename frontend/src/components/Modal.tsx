@@ -8,7 +8,7 @@ type modalProp = {
 };
 const Modal = ({ modalRef }: modalProp) => {
   const { handleModal } = useGlobalContext();
-  const { user } = useUserContext();
+  const { user, handleLogout } = useUserContext();
   return (
     <div
       ref={modalRef}
@@ -26,12 +26,12 @@ const Modal = ({ modalRef }: modalProp) => {
             >
               Account
             </Link>
-            <Link
+            <span
               className="text-sm font-semibold hover:bg-gray-300/20 w-full py-2 px-4"
-              to="/login"
+              onClick={handleLogout}
             >
               Logout
-            </Link>
+            </span>
           </>
         ) : (
           <>
