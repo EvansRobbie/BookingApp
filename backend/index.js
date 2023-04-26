@@ -6,7 +6,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const imageDownloader = require('image-downloader')
+const multer  = require('multer')
+// rename path
+const fs = require('fs')
 const User = require("./models/User");
+const Places = require('./models/Places')
 require("dotenv").config();
 const port = 4000;
 
@@ -92,5 +96,44 @@ app.post('/upload-by-link', async (req, res) =>{
     dest: __dirname +'/uploads/'+newName,
   })
   res.json(newName)
+})
+
+const photoMiddleware = multer({dest:'uploads/'})
+app.post('/upload',photoMiddleware.array('photos', 100) ,(req, res) =>{
+  // console.log(req.files)
+  // const uploadedFiles =[]
+  // for (let i = 0; i < req.files.length; i++){
+  //   const {path, originalname} = req.files[i]
+  //   const parts = originalname.split('.')
+  //   const ext = parts[parts.length - 1]
+  //   const newPath = path + '.' + ext
+  //   fs.renameSync(path, newPath)
+  //   uploadedFiles.push(newPath.replace('uploads\\', '') )
+  // }
+  // res.json(req.files)
+  const uploadedFiles = req.files.map(file => {
+    const { path, originalname } = file
+    const parts = originalname.split('.')
+    const ext = parts[parts.length - 1]
+    const newPath =path + '.' + ext;
+    fs.renameSync(path, newPath)
+    return newPath.replace('uploads\\', '')
+  })
+  res.json(uploadedFiles)
+})
+app.post('/places', async (req, res)=>{
+  // get the userId ie owner
+  const { token } = req.cookies;
+  const {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests} = req.body
+  jwt.verify(token, jwtSecret, {}, async (err, user) => {
+    if (err) throw err;
+  const placeData = await Places.create({
+      owner: user.id,
+      title, address, addedPhotos, description, perks, 
+      extraInfo, checkIn, checkOut, maxGuests
+
+    })
+    res.json(placeData)
+  })
 })
 app.listen(port);

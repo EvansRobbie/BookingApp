@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Perks from "../components/Perks";
 import axios from "axios";
+import PhotoUploads from "../components/PhotoUploads";
 
 const Places = () => {
   const { action } = useParams();
+  const navigate = useNavigate()
   // console.log(action)
   const [title, setTitle] = useState("");
-  const [address, setAddress] = useState("");
-  const [addedPhotos, setAddedPhotos] = useState<string[]>([]);
-  const [photoLink, setPhotoLink] = useState("");
+  const [address, setAddress] = useState("")
   const [description, setDescription] = useState("");
-  const [perks, setPerks] = useState([]);
+  const [perks, setPerks] = useState<string[]>([]);
   const [extraInfo, setExtraInfo] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -42,13 +42,11 @@ const Places = () => {
     setMaxGuests(newGuestValue);
   };
 
-  const addPhotoByLink = async (e: React.FormEvent<HTMLButtonElement>) =>{
+  const onSubmit =  (e:React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault()
-    const {data: filename} = await axios.post('/upload-by-link', {link: photoLink})
-    setAddedPhotos(prev => {
-      return  [...prev, filename]
-    })
-    setPhotoLink('')
+    const data = {title, address, description, perks, extraInfo, checkIn, checkOut, maxGuests}
+    axios.post('/places', data)
+   navigate('/account/places')
   }
   return (
     <div>
@@ -78,7 +76,7 @@ const Places = () => {
       )}
       {action === "new" && (
         <div>
-          <form className="flex flex-col px-4 -mt-10">
+          <form onSubmit= {onSubmit} className="flex flex-col px-4 -mt-10">
             {preInput(
               "title",
               "Title",
@@ -104,43 +102,7 @@ const Places = () => {
             />
 
             {preInput("photos", "Photos", "More = better")}
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={photoLink}
-                onChange={(e) => setPhotoLink(e.target.value)}
-                className="outline-none border  rounded-xl px-6 py-2 w-full"
-                placeholder="Add using Link....jpg"
-              />
-              <button onClick={addPhotoByLink} className="bg-gray-200 px-4 rounded-2xl">
-                Add&nbsp;Photo
-              </button>
-            </div>
-            <div className="grid grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6 mt-2">
-                {addedPhotos.length > 0 && addedPhotos.map((link) =>(
-                    <div key={link}>
-                        <img className="rounded-2xl" src={`http://localhost:4000/uploads/${link}`} alt="" />
-                    </div>
-                ))}
-              <label className="border bg-transparent p-2 justify-center cursor-pointer rounded-xl text-xl text-gray-600 flex items-center gap-2 ">
-                <input type="file" className="hidden" />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-                  />
-                </svg>
-                Upload
-              </label>
-            </div>
+           <PhotoUploads/>
 
             {preInput("description", "Description", "Description of the place")}
             <textarea
@@ -210,7 +172,7 @@ const Places = () => {
                   onChange={handleGuestChange}
                   className="outline-none border rounded-xl px-6 py-2"
                   id="guests"
-                  type="text"
+                  type="number"
                 />
               </div>
             </div>
