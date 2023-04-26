@@ -11,7 +11,7 @@ import Register from './pages/Register'
 import Home from './pages/Home'
 import axios from 'axios'
 import Account from './pages/Account'
-import ProtectedRoute from './components/ProtectedRoute'
+
 
 axios.defaults.baseURL = 'http://127.0.0.1:4000'
 axios.defaults.withCredentials =  true
@@ -44,7 +44,8 @@ function App() {
         <Route path= '/login' element={<Login/>}/>
         <Route path='/register' element = {<Register/>} />
         <Route path='/account/:subpages?' element =  {<Account/>} />
-        <Route path='/account/:subpages/:action' element =  {<Account/>} />
+        {/* <Route path='/account/:subpages/:action' element =  {<Account/>} /> */}
+        <Route path='/account/:subpages/:id' element =  {<Account/>} />
       </Routes>
     
       </UserContextProvider>

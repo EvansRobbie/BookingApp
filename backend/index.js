@@ -124,7 +124,7 @@ app.post('/upload',photoMiddleware.array('photos', 100) ,(req, res) =>{
 app.post('/places', async (req, res)=>{
   // get the userId ie owner
   const { token } = req.cookies;
-  const {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests} = req.body
+  const {title, address, images: addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests} = req.body
   jwt.verify(token, jwtSecret, {}, async (err, user) => {
     if (err) throw err;
   const placeData = await Places.create({
@@ -135,5 +135,20 @@ app.post('/places', async (req, res)=>{
     })
     res.json(placeData)
   })
+})
+app.get('/places', (req, res)=>{
+  // get userId
+  const { token } = req.cookies;
+  // decrypt the token
+  jwt.verify(token, jwtSecret, {}, async (err, user) =>{
+    const {id} = user
+    res.json( await Places.find({owner: id}))
+  })
+
+})
+app.get('/places/:id', async (req, res)=>{
+  // res.json(req.params)
+  const {id} = req.params
+  res.json(await Places.findById(id))
 })
 app.listen(port);
