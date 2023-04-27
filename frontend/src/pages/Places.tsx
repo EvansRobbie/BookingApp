@@ -5,20 +5,20 @@ import { useEffect } from "react";
 import axios from "axios";
 
 const Places = () => {
-  const { action } = useParams();
-//   console.log(action)
-  useEffect(() =>{
-    if(!action) return;
-    axios.get(`places/${action}`).then(({data}) =>{
-        console.log(data)
-    })
-  }, [action])
+  const {subpages} = useParams();
+  // console.log(params)
+  // useEffect(() =>{
+  //   if(!action) return;
+  //   axios.get(`places/${action}`).then(({data}) =>{
+  //       console.log(data)
+  //   })
+  // }, [action])
   return (
     <div>
-      {action !== "new" && (
+      {/* {action !== "new" && ( */}
         <div className="text-center -mt-8">
           <Link
-            to={`/account/places/new`}
+            to={`/account/${subpages}/new`}
             className="bg-secondary hover:bg-primary rounded-full inline-flex  gap-3 px-6 py-2 text-white font-semibold"
           >
             <svg
@@ -38,12 +38,12 @@ const Places = () => {
             Add new places
           </Link>
         </div>
-      )}
-      {action === "new" && (
-        <div>
+      {/* )}
+      {action === "new" && ( */}
+        {/* <div>
             <PlacesForm/>
         </div>
-      )}
+      )} */}
       <div className="my-4 px-4">
         <PlacesDisplay/>
       </div>

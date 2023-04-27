@@ -1,12 +1,13 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import Perks from './Perks';
 import PhotoUploads from './PhotoUploads';
+import AccountNav from './AccountNav';
 
 const PlacesForm = () => {
-  const params = useParams()
-  console.log(params)
+  const {id} = useParams()
+  // console.log(params)
   const navigate = useNavigate()
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("")
@@ -17,6 +18,22 @@ const PlacesForm = () => {
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState<number>(1);
 
+  useEffect(() =>{
+    if(!id) return;
+    axios.get(`places/${id}`).then(({data}) =>{
+        // 
+        const {title, address, description, perks, extraInfo, checkIn, checkOut, maxGuests } = data
+        // console.log(perks)
+        setTitle(title)
+        setAddress(address)
+        setDescription(description)
+        setPerks(perks)
+        setExtraInfo(extraInfo)
+        setCheckIn(checkIn)
+        setCheckOut(checkOut)
+        setMaxGuests(maxGuests)
+    })
+  }, [id])
   const Labels = (name: string, text: string) => {
     return (
       <label htmlFor={name} className="text-xl mt-4 font-semibold">
@@ -45,11 +62,21 @@ const PlacesForm = () => {
   const onSubmit =  (e:React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault()
     const data = {title, address, description, perks, extraInfo, checkIn, checkOut, maxGuests}
-    axios.post('/places', data)
+    if (id){
+      // update place
+      axios.put('/places',{
+        id, ...data
+      })
+    } else{
+      // new place
+      axios.post('/places', data)
+
+    }
    navigate('/account/places')
   }
   return (
     <>
+      <AccountNav/>
          <form onSubmit= {onSubmit} className="flex flex-col px-4 -mt-10">
             {preInput(
               "title",
@@ -83,7 +110,7 @@ const PlacesForm = () => {
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="outline-none border  rounded-xl px-6 py-2 w-full "
+              className="outline-none border h-[200px] rounded-xl px-6 py-2 w-full "
             />
 
             {preInput("perks", "Perks", "select all the parks of your places")}
@@ -96,7 +123,7 @@ const PlacesForm = () => {
               value={extraInfo}
               onChange={(e) => setExtraInfo(e.target.value)}
               id="extra"
-              className="outline-none border  rounded-xl px-6 py-2 w-full "
+              className="outline-none border h-[200px] rounded-xl px-6 py-2 w-full "
             />
 
             <h2 className="text-xl mt-4 font-semibold">

@@ -1,22 +1,33 @@
 const express = require("express");
+// coonect with express js
 const app = express();
 const cors = require("cors");
+// import ,ongoose 
 const { default: mongoose } = require("mongoose");
+// bcrypt to hash password
 const bcrypt = require("bcryptjs");
+// JSON Web Token, is an open standard used to share information between two parties securely — a client and a server
+// . JWT is a standard way of representing claims securely between two parties.
 const jwt = require("jsonwebtoken");
+// cookie-parser simplifies the handling of cookies in Express.js applications and provides additional security features to protect against attacks such as cookie tampering and session hijacking.
 const cookieParser = require("cookie-parser");
 const imageDownloader = require('image-downloader')
+// Multer is a node.js middleware for handling multipart/form-data, which is primarily used for uploading files.
 const multer  = require('multer')
 // rename path
 const fs = require('fs')
+// import the user model
 const User = require("./models/User");
+//  import the place model/ schema
 const Places = require('./models/Places')
+// Put 
 require("dotenv").config();
 const port = 4000;
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "ffjhgjhbjbgsjhkgdywdhkljklcjklhjbjkbjknjk";
 
+ // Middleware to parse JSON bodies
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname+'/uploads'))
@@ -50,14 +61,17 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const userData = await User.findOne({ email });
   if (userData) {
+    // compare if the passwords match
     const passOk = bcrypt.compareSync(password, userData.password);
     if (passOk) {
+      // generates a JSON Web Token (JWT) using jwt.sign(). The token is signed with a secret key (jwtSecret) and contains the user's email and id as payload data
       jwt.sign(
         { email: userData.email, id: userData._id},
         jwtSecret,
         {},
         (err, token) => {
           if (err) throw err;
+          // The generated token is then set as a cookie named "token" using res.cookie("token", token).
           res.cookie("token", token).json(userData);
         }
       );
@@ -124,12 +138,12 @@ app.post('/upload',photoMiddleware.array('photos', 100) ,(req, res) =>{
 app.post('/places', async (req, res)=>{
   // get the userId ie owner
   const { token } = req.cookies;
-  const {title, address, images: addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests} = req.body
+  const {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests} = req.body
   jwt.verify(token, jwtSecret, {}, async (err, user) => {
     if (err) throw err;
   const placeData = await Places.create({
       owner: user.id,
-      title, address, addedPhotos, description, perks, 
+      title, address, images:addedPhotos, description, perks, 
       extraInfo, checkIn, checkOut, maxGuests
 
     })
@@ -146,9 +160,29 @@ app.get('/places', (req, res)=>{
   })
 
 })
+// retrieve places details for edit to the inputs
 app.get('/places/:id', async (req, res)=>{
   // res.json(req.params)
   const {id} = req.params
   res.json(await Places.findById(id))
+})
+// edit/ save updates on places
+app.put('/places/', async (req, res) =>{
+  // get userId
+  const { token } = req.cookies;
+  const { id, title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests} = req.body
+  jwt.verify(token, jwtSecret, {}, async (err, user) => {
+    if (err) throw err;
+    const placeData = await Places.findById(id)
+    if (user.id === placeData.owner.toString()){
+      placeData.set({
+        title, address, images:addedPhotos, description, perks, 
+        extraInfo, checkIn, checkOut, maxGuests
+      })
+     await placeData.save()
+      res.json('ok')
+    }
+
+  })
 })
 app.listen(port);
