@@ -11,6 +11,7 @@ const PlacesForm = () => {
   const navigate = useNavigate()
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("")
+  const [addedPhotos, setAddedPhotos] = useState<string[]>([]);
   const [description, setDescription] = useState("");
   const [perks, setPerks] = useState<string[]>([]);
   const [extraInfo, setExtraInfo] = useState("");
@@ -21,11 +22,12 @@ const PlacesForm = () => {
   useEffect(() =>{
     if(!id) return;
     axios.get(`places/${id}`).then(({data}) =>{
-        // 
-        const {title, address, description, perks, extraInfo, checkIn, checkOut, maxGuests } = data
+        // console.log(data)
+        const {title, address, images, description, perks, extraInfo, checkIn, checkOut, maxGuests } = data
         // console.log(perks)
         setTitle(title)
         setAddress(address)
+        setAddedPhotos(images)
         setDescription(description)
         setPerks(perks)
         setExtraInfo(extraInfo)
@@ -59,17 +61,17 @@ const PlacesForm = () => {
     setMaxGuests(newGuestValue);
   };
 
-  const onSubmit =  (e:React.FormEvent<HTMLFormElement>) =>{
+  const onSubmit = async   (e:React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault()
-    const data = {title, address, description, perks, extraInfo, checkIn, checkOut, maxGuests}
+    const data = {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests}
     if (id){
       // update place
-      axios.put('/places',{
+     await axios.put('/places',{
         id, ...data
       })
     } else{
       // new place
-      axios.post('/places', data)
+      await axios.post('/places', data)
 
     }
    navigate('/account/places')
@@ -103,7 +105,7 @@ const PlacesForm = () => {
             />
 
             {preInput("photos", "Photos", "More = better")}
-           <PhotoUploads/>
+           <PhotoUploads addedPhotos ={addedPhotos} setAddedPhotos={setAddedPhotos}/>
 
             {preInput("description", "Description", "Description of the place")}
             <textarea

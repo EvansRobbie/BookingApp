@@ -43,6 +43,7 @@ mongoose.connect(process.env.MONGO_URL);
 app.get("/test", (req, res) => {
   res.json("test Ok");
 });
+
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
   // res.json({name, email, password})
@@ -57,6 +58,7 @@ app.post("/register", async (req, res) => {
     res.status(422).json(e);
   }
 });
+
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const userData = await User.findOne({ email });
@@ -84,6 +86,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
+
 app.get("/profile", (req, res) => {
   const { token } = req.cookies;
   // res.json({token})
@@ -98,10 +101,11 @@ app.get("/profile", (req, res) => {
     res.json(null);
   }
 });
+
 app.post('/logout', (req, res)=>{
   res.cookie('token', '').json(true)
 })
-console.log(__dirname)
+// console.log(__dirname)
 app.post('/upload-by-link', async (req, res) =>{
   const {link} = req.body
   const newName = 'photo' + Date.now() + '.jpg'
@@ -138,6 +142,7 @@ app.post('/upload',photoMiddleware.array('photos', 100) ,(req, res) =>{
 app.post('/places', async (req, res)=>{
   // get the userId ie owner
   const { token } = req.cookies;
+  console.log(req.body.addedPhotos)
   const {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests} = req.body
   jwt.verify(token, jwtSecret, {}, async (err, user) => {
     if (err) throw err;

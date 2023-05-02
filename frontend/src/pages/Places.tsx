@@ -18,7 +18,7 @@ const Places = () => {
       {/* {action !== "new" && ( */}
         <div className="text-center -mt-8">
           <Link
-            to={`/account/${subpages}/new`}
+            to={`/account/places/new`}
             className="bg-secondary hover:bg-primary rounded-full inline-flex  gap-3 px-6 py-2 text-white font-semibold"
           >
             <svg

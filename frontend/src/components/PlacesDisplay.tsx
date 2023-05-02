@@ -24,13 +24,14 @@ const PlacesDisplay = () => {
     })
   }, [])
     const placesElement = places.map((place)=>{
+        // console.log(places)
         const { _id: id, title, address, description, images, extraInfo, perks, checkIn, checkOut, maxGuests} = place
         return(
 
             <Link key={id} to={`/account/places/${id}`} className="bg-gray-200 p-4 cursor-pointer rounded-2xl flex gap-4">
-                <div className="w-32 h-32 bg-gray-300 rounded-2xl grow shrink-0 ">
+                <div className="w-32 h-32 bg-gray-300 rounded-2xl grow shrink-0 overflow-hidden flex ">
                     {images.length > 0 && (
-                        <img src={images[0]} alt="" />
+                        <img className=' object-cover' src={`http://127.0.0.1:4000/uploads/${images[0]}`} alt="" />
                     )}
                 </div>
                 <div className="">
