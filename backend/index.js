@@ -143,13 +143,13 @@ app.post('/places', async (req, res)=>{
   // get the userId ie owner
   const { token } = req.cookies;
   // console.log(req.body.addedPhotos)
-  const {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests} = req.body
+  const {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests, prices} = req.body
   jwt.verify(token, jwtSecret, {}, async (err, user) => {
     if (err) throw err;
   const placeData = await Places.create({
       owner: user.id,
       title, address, images:addedPhotos, description, perks, 
-      extraInfo, checkIn, checkOut, maxGuests
+      extraInfo, checkIn, checkOut, maxGuests, prices
 
     })
     res.json(placeData)
@@ -175,14 +175,14 @@ app.get('/places/:id', async (req, res)=>{
 app.put('/places/', async (req, res) =>{
   // get userId
   const { token } = req.cookies;
-  const { id, title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests} = req.body
+  const { id, title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests, prices} = req.body
   jwt.verify(token, jwtSecret, {}, async (err, user) => {
     if (err) throw err;
     const placeData = await Places.findById(id)
     if (user.id === placeData.owner.toString()){
       placeData.set({
         title, address, images:addedPhotos, description, perks, 
-        extraInfo, checkIn, checkOut, maxGuests
+        extraInfo, checkIn, checkOut, maxGuests, prices
       })
      await placeData.save()
       res.json('ok')

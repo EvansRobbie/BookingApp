@@ -18,12 +18,13 @@ const PlacesForm = () => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState<number>(1);
+  const [prices, setPrices] = useState<number>(100)
 
   useEffect(() =>{
     if(!id) return;
     axios.get(`places/${id}`).then(({data}) =>{
         // console.log(data)
-        const {title, address, images, description, perks, extraInfo, checkIn, checkOut, maxGuests } = data
+        const {title, address, images, description, perks, extraInfo, checkIn, checkOut, maxGuests, prices } = data
         // console.log(perks)
         setTitle(title)
         setAddress(address)
@@ -34,6 +35,7 @@ const PlacesForm = () => {
         setCheckIn(checkIn)
         setCheckOut(checkOut)
         setMaxGuests(maxGuests)
+        setPrices(prices)
     })
   }, [id])
   const Labels = (name: string, text: string) => {
@@ -60,10 +62,14 @@ const PlacesForm = () => {
     const newGuestValue = Number(e.target.value);
     setMaxGuests(newGuestValue);
   };
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newPrice = Number(e.target.value);
+    setPrices(newPrice);
+  };
 
   const onSubmit = async   (e:React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault()
-    const data = {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests}
+    const data = {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests, prices}
     if (id){
       // update place
      await axios.put('/places',{
@@ -178,7 +184,20 @@ const PlacesForm = () => {
                   type="number"
                 />
               </div>
+              
             </div>
+            <div className="flex flex-col my-1 w-full">
+                <label className="text-lg mt-4 font-semibold " htmlFor="prices">
+                  Price per night
+                </label>
+                <input
+                  value={prices}
+                  onChange={handlePriceChange}
+                  className="outline-none border rounded-xl px-6 py-2"
+                  id="prices"
+                  type="number"
+                />
+              </div>
             <button className="bg-primary my-4 text-white rounded-2xl py-2 px-6">
               Save
             </button>

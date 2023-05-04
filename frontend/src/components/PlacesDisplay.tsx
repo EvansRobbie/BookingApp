@@ -13,6 +13,7 @@ interface placeProps {
     checkIn: number
     checkOut:number
     maxGuests: number
+    prices: string
 }
 const PlacesDisplay = () => {
     const [places, setPlaces] = useState< placeProps[]>([])
@@ -43,9 +44,9 @@ const PlacesDisplay = () => {
         )
     })
   return (
-    <>
+    <div className='flex flex-col gap-y-4 py-2'>
         {places.length > 0 && placesElement}
-    </>
+    </div>
   )
 }
 

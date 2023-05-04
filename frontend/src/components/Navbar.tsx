@@ -9,7 +9,7 @@ const Navbar  = () => {
     
     // console.log(showModal)
   return (
-    <div className='fixed top-0 left-0 opacity-100 w-full h-20 px-8 z-10'>
+    <div className='fixed top-0 left-0 opacity-100 w-full h-20 px-8 z-10 bg-white'>
         <header className='flex  items-center justify-between h-full w-full'>
             <Link to='/' className=" flex items-center gap-1">
                 <div className=" -rotate-90 text-primary">

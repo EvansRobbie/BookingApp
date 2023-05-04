@@ -12,6 +12,7 @@ import Home from './pages/Home'
 import axios from 'axios'
 import Account from './pages/Account'
 import PlacesForm from './components/PlacesForm'
+import SinglePlace from './pages/SinglePlace'
 
 
 axios.defaults.baseURL = 'http://127.0.0.1:4000'
@@ -48,6 +49,7 @@ function App() {
         <Route path='/account/:subpages/:action' element =  {<Account/>} />
         <Route path='/account/places/new' element =  {<PlacesForm/>} />
         <Route path='/account/places/:id' element =  {<PlacesForm/>} />
+        <Route path='/places/:id' element={<SinglePlace/>}/>
       </Routes>
     
       </UserContextProvider>

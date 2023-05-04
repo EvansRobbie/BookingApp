@@ -1,11 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Images from '../components/Images'
+import { Link } from 'react-router-dom'
 interface placeProps {
   _id:string
   title:string
   images: string[]
   address: string
+  prices:number
 }
 
 const Home:React.FC = () => {
@@ -24,16 +26,20 @@ const Home:React.FC = () => {
   // console.log(places)
 
   const placeElement = places.map((place)=>{
-    const {_id, title, images, address} = place
+    const {_id, title, images, address, prices} = place
     return(
-      <div key={_id}>
+      <Link to={`places/${_id}`} key={_id}>
         
           {images?.[0] && <Images images= {images}/> }
           
         
-        <h2 className="text-sm">{title}</h2>
-        <h3 className="font-bold">{address}</h3>
-      </div>
+        
+        <h2 className="font-bold">{address}</h2>
+        <h3 className="text-sm">{title}</h3>
+        <div className='py-2'>
+          <span className="font-bold">$ {prices} per night</span>
+        </div>
+      </Link>
     )
   })
   return (
