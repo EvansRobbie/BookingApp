@@ -142,7 +142,7 @@ app.post('/upload',photoMiddleware.array('photos', 100) ,(req, res) =>{
 app.post('/places', async (req, res)=>{
   // get the userId ie owner
   const { token } = req.cookies;
-  console.log(req.body.addedPhotos)
+  // console.log(req.body.addedPhotos)
   const {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests} = req.body
   jwt.verify(token, jwtSecret, {}, async (err, user) => {
     if (err) throw err;
@@ -155,7 +155,7 @@ app.post('/places', async (req, res)=>{
     res.json(placeData)
   })
 })
-app.get('/places', (req, res)=>{
+app.get('/user-places', (req, res)=>{
   // get userId
   const { token } = req.cookies;
   // decrypt the token
@@ -189,5 +189,8 @@ app.put('/places/', async (req, res) =>{
     }
 
   })
+})
+app.get('/places', async (req, res) =>{
+  res.json(await Places.find())
 })
 app.listen(port);

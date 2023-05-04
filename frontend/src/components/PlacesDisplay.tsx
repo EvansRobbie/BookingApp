@@ -19,7 +19,7 @@ const PlacesDisplay = () => {
   
   // console.log(action)
   useEffect(()=>{
-    axios.get('/places').then(({data}) =>{
+    axios.get('/user-places').then(({data}) =>{
         setPlaces(data)
     })
   }, [])
@@ -29,9 +29,9 @@ const PlacesDisplay = () => {
         return(
 
             <Link key={id} to={`/account/places/${id}`} className="bg-gray-200 p-4 cursor-pointer rounded-2xl flex gap-4">
-                <div className="w-32 h-32 bg-gray-300 rounded-2xl grow shrink-0 overflow-hidden flex ">
+                <div className="w-32 h-32 bg-gray-300 rounded-xl grow shrink-0 overflow-hidden flex ">
                     {images.length > 0 && (
-                        <img className=' object-cover' src={`http://127.0.0.1:4000/uploads/${images[0]}`} alt="" />
+                        <img className=' object-cover hover:scale-105 duration-500 ease-in transition-all' src={`http://127.0.0.1:4000/uploads/${images[0]}`} alt="" />
                     )}
                 </div>
                 <div className="">
