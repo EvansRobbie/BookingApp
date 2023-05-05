@@ -6,6 +6,12 @@ interface placeProp {
   title: string;
   address: string;
   images: string[];
+  description: string
+  checkIn: string
+  checkOut: string
+  extraInfo:string
+  maxGuests:string
+  prices: string
 }
 
 const SinglePlace = () => {
@@ -53,10 +59,10 @@ const SinglePlace = () => {
       <div className="relative">
 
         <div className=" grid grid-cols-1 md:grid-cols-2 gap-2 py-5">
-            <div className="flex h-[53vh] rounded-tl-2xl rounded-bl-2xl overflow-hidden">
+            <div className="flex h-[55vh] rounded-tl-2xl rounded-bl-2xl overflow-hidden">
             {place?.images?.[0] && (
                 <img
-                className=" w-full"
+                className=" w-full h-full"
                 src={`http://127.0.0.1:4000/uploads/${place?.images[0]}`}
                 alt="/"
                 />
@@ -105,7 +111,47 @@ const SinglePlace = () => {
         <span>Show all photos</span>
       </button>
       </div> 
+     
+      <div className="grid grid-cols-1 md:grid-cols-3 py-4 my-2 px-4 md:px-0 gap-4">
+      <div className="col-span-2">
+            <h2 className="text-2xl font-semibold">Description</h2>
+            <p className="text-gray-600 text-base">{place?.description}</p>
+      
+        <div className="flex flex-wrap gap-x-4 md:flex-col py-4 ">
+            <span> <b>Check In: </b>  {place?.checkIn}</span> 
+            <span> <b>Check Out:</b> {place?.checkOut} </span>
+            <p> <b>Maximum number of Guests: </b> {place?.maxGuests}</p>
+            
+        </div>
+        </div>
+        <div className=" col-span-1">
+            <div className="border p-4 max-w-sm mx-auto rounded-2xl shadow-2xl shadow-gray-400">
+                <p className="text-xl font-bold">
+                    $ {place?.prices} <span className="font-medium text-base text-gray-500">night</span>  
+                </p>
+                <div className="w-full pt-3">
+                        <div className="grid grid-cols-2 ">
+
+                            <div className="py-1 px-2  cursor-pointer flex flex-col border-[#c13515] border rounded-tl-2xl w-full ">
+                                <label className="uppercase text-xs text-[#c13515] font-bold" htmlFor="checkin">Check In</label>
+                                <input type="date" id="checkin" />
+                            </div>
+                            <div className="py-1 px-2 cursor-pointer border-[#c13515] border rounded-tr-2xl flex flex-col  w-full ">
+                                <label className="uppercase text-xs text-[#c13515] font-bold" htmlFor="checkout">Check Out</label>
+                                <input type="date" id="checkout" />
+                            </div>
+                        </div>
+                    <div className="py-1 px-5 border border-gray-500 rounded-b-2xl cursor-pointer flex flex-col  ">
+                        <label className="text-xs" htmlFor="guests">Guests</label>
+                        <input type="number" id="guests" placeholder="1 Guest" />
+                    </div>
+                    </div>
+                <button className="bg-primary mt-4 w-full rounded-2xl py-2.5 text-white active:scale-105 shadow-md duration-500 ease-in hover:shadow-secondary">Book this place</button>
+            </div>
+        </div>
       </div>
+      </div>
+
       ) }
     </>
   );
