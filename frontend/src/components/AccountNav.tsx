@@ -3,6 +3,11 @@ import { Link, useParams } from 'react-router-dom'
 
 const AccountNav = () => {
     let {subpages} = useParams()
+    // console.log(subpages)
+    if (subpages === undefined){ 
+      
+      subpages ='profile'
+    } 
     const navlinks = (type:null | undefined | string = null) => {
         let styles = 'px-4 py-2 flex gap-2 font-semibold rounded-full duration-500 ease-in'
   

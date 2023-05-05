@@ -12,7 +12,7 @@ const Modal = ({ modalRef }: modalProp) => {
   return (
     <div
       ref={modalRef}
-      className="absolute top-20 right-9 bg-black/50 w-64 h-[28vh] opacity-100 z-20 bg-white rounded-xl shadow-md border border-gray-100/50 shadow-gray-300 flex items-center"
+      className="fixed top-20 right-9 bg-black/50 w-64 h-[28vh] opacity-100 z-20 bg-white rounded-xl shadow-md border border-gray-100/50 shadow-gray-300 flex items-center"
     >
       <div
         onClick={handleModal}

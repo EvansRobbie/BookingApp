@@ -2,6 +2,7 @@ import { useUserContext } from '../context/UserContext'
 import { Link,  NavLink,  Navigate, useParams } from 'react-router-dom'
 import Places from './Places'
 import AccountNav from '../components/AccountNav'
+import BookingsPage from './BookingsPage'
 
 const Account = () => {
     const { user, ready, handleLogout } = useUserContext()
@@ -36,6 +37,9 @@ const Account = () => {
         )}
         { subpages === 'places' && (
           <Places/>
+        )}
+        { subpages === 'bookings' && (
+          <BookingsPage/>
         )}
     </div>
   )

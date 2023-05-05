@@ -20,6 +20,8 @@ const fs = require('fs')
 const User = require("./models/User");
 //  import the place model/ schema
 const Places = require('./models/Places')
+// import the booking model
+const Booking = require('./models/Bookings')
 // Put 
 require("dotenv").config();
 const port = 4000;
@@ -192,5 +194,31 @@ app.put('/places/', async (req, res) =>{
 })
 app.get('/places', async (req, res) =>{
   res.json(await Places.find())
+})
+
+app.post('/booking', async (req, res)=>{
+  const userData = await getUserDataFromToken(req)
+  const {place, checkin, checkout, guests, name, phone, price} = req.body
+  try{
+    const BookingData = await Booking.create({
+      place,
+      checkin, checkout, guests, name, phone, price, user:userData.id
+    })
+    res.json(BookingData)
+  }catch(e){
+    res.status(422).json('failed')
+  }
+})
+const getUserDataFromToken = (req) =>{
+  return new Promise((resolve, reject) =>{
+    jwt.verify(req.cookies.token, jwtSecret, {}, (err, userData)=>{
+      if (err) throw err;
+      resolve(userData)
+    })
+  })
+}
+app.get('/booking', async (req, res)=>{
+  const userData =  await getUserDataFromToken(req)
+  res.json(await Booking.find({user: userData.id}))
 })
 app.listen(port);
