@@ -16,7 +16,7 @@ const Home:React.FC = () => {
     const fetchPlaces = async () =>{
       try{
         const {data} = await axios.get('/places')
-        setPlaces([...data, ...data, ...data, ...data, ...data] )
+        setPlaces(data )
       }catch(e){
         console.log(e)
       }

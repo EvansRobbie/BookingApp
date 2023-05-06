@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {differenceInCalendarDays} from 'date-fns'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../context/UserContext";
 interface placeProp {
     id: string | undefined
   checkIn: string | undefined;
@@ -20,15 +21,23 @@ const Booking: React.FC<placeProp> = ({
   guest,
 }) => {
     const navigate =  useNavigate()
+    const {user} = useUserContext()
   const [checkin, setCheckIn] = useState<string>("");
   const [checkout, setCheckout] = useState<string>("");
   const [guests, setGuests] = useState<number>(1);
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
+
   let numberOfNights  = 0
   if (checkout && checkin){
     numberOfNights = differenceInCalendarDays(new Date(checkout), new Date(checkin))
   }
+  useEffect(() =>{
+    if (user){
+        setName(user.name)
+      }
+  }, [user])
+ 
   const handleGuestChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newGuest = Number(e.target.value);
     setGuests(newGuest);

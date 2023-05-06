@@ -42,6 +42,15 @@ app.use(
 //
 // console.log(process.env.MONGO_URL)
 mongoose.connect(process.env.MONGO_URL);
+
+const getUserDataFromToken = (req) =>{
+  return new Promise((resolve, reject) =>{
+    jwt.verify(req.cookies.token, jwtSecret, {}, (err, userData)=>{
+      if (err) throw err;
+      resolve(userData)
+    })
+  })
+}
 app.get("/test", (req, res) => {
   res.json("test Ok");
 });
@@ -209,16 +218,9 @@ app.post('/booking', async (req, res)=>{
     res.status(422).json('failed')
   }
 })
-const getUserDataFromToken = (req) =>{
-  return new Promise((resolve, reject) =>{
-    jwt.verify(req.cookies.token, jwtSecret, {}, (err, userData)=>{
-      if (err) throw err;
-      resolve(userData)
-    })
-  })
-}
+
 app.get('/booking', async (req, res)=>{
   const userData =  await getUserDataFromToken(req)
-  res.json(await Booking.find({user: userData.id}))
+  res.json(await Booking.find({user: userData.id}).populate('place'))
 })
 app.listen(port);

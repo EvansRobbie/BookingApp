@@ -1,7 +1,8 @@
 const {model, Schema} = require('mongoose')
 
 const BookingSchema = new Schema({
-    place: {type:Schema.Types.ObjectId, require:true},
+    place: {type:Schema.Types.ObjectId, require:true, ref:'Places'},
+    user: {type:Schema.Types.ObjectId, require:true},
     checkin: {type:Date, require:true},
     checkout: {type:Date, require:true},
     guests: {type:Number, required:true},
