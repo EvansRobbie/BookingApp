@@ -28,18 +28,21 @@ const Home:React.FC = () => {
   const placeElement = places.map((place)=>{
     const {_id, title, images, address, prices} = place
     return(
-      <Link to={`places/${_id}`} key={_id}>
+      <div className='relative z-10'key={_id}>
         
-          {images?.[0] && <Images images= {images}/> }
+          {images?.[0] && <Images images= {images} id = {_id}/> }
           
         
-        
-        <h2 className="font-bold">{address}</h2>
-        <h3 className="text-sm">{title}</h3>
-        <div className='py-2'>
-          <span className="font-bold">$ {prices} per night</span>
-        </div>
-      </Link>
+        <Link to={`places/${_id}`}>
+          <h2 className="font-bold truncate">{address}</h2>
+          <h3 className="text-sm truncate">{title}</h3>
+          <div className='py-2'>
+            <span className="font-bold">$ {prices} night</span>
+          </div>
+        </Link> 
+      
+  
+      </div>
     )
   })
   return (
