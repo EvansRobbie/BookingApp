@@ -26,7 +26,7 @@ const Register = () => {
    
   };
   return (
-    <div className="relative top-0 left-0 flex grow flex-col items-center w-full justify-center h-screen -mt-16 ">
+    <div className="relative px-4 top-0 left-0 flex grow flex-col items-center w-full justify-center h-screen -mt-16 ">
       <h2 className="py-10 font-bold text-4xl text-gray-600">Sign Up</h2>
       <form
         className="flex flex-col max-w-md mx-auto w-full  gap-4"

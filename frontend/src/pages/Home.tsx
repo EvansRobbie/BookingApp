@@ -46,7 +46,7 @@ const Home:React.FC = () => {
     )
   })
   return (
-    <div className='relative py-16 mt-8 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8'>
+    <div className='relative py-16 mt-8 px-4 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8'>
       {places.length > 0 && placeElement}
     </div>
   )

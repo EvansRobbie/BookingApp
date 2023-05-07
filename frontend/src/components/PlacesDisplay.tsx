@@ -15,6 +15,11 @@ interface placeProps {
     maxGuests: number
     prices: string
 }
+interface strProp{
+
+    str:string
+    num: number
+}
 const PlacesDisplay = () => {
     const [places, setPlaces] = useState< placeProps[]>([])
   
@@ -24,6 +29,12 @@ const PlacesDisplay = () => {
         setPlaces(data)
     })
   }, [])
+  const truncate= (str:string, num: number) =>{
+    if (str.length > num){
+       return str.slice(0, num) + '...'
+    }
+    return str
+  }
     const placesElement = places.map((place)=>{
         // console.log(places)
         const { _id: id, title, address, description, images, extraInfo, perks, checkIn, checkOut, maxGuests} = place
@@ -36,8 +47,8 @@ const PlacesDisplay = () => {
                     )}
                 </div>
                 <div className="">
-                    <h2 className="text-xl">{title}</h2>
-                    <p className="text-sm">{description}</p>
+                    <h2 className="text-xl font-medium">{title}</h2>
+                    <p className="text-sm">{truncate(description, 200)}</p>
                 </div>
                 
             </Link>

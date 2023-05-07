@@ -29,7 +29,7 @@ const Login = () => {
     return <Navigate to= '/'/>
   }
   return (
-    <div className="relative  flex grow flex-col items-center w-full justify-center h-screen opacity-100 ">
+    <div className="relative px-4  flex grow flex-col items-center w-full justify-center h-screen opacity-100 ">
       {/* <div className=' w-full h-full text-center'> */}
 
       <h2 className="py-10 font-bold text-4xl text-gray-600">Login</h2>
