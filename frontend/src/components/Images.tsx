@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import Image from './Image';
 
 const Images = ({images, id}: {images: string[], id:string}) => {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -40,7 +41,7 @@ const Images = ({images, id}: {images: string[], id:string}) => {
   return (
     <div className='relative group  bg-gray-500 rounded-2xl overflow-hidden flex my-2'>
       <Link to={`places/${id}`}>
-        <img className=' aspect-square object-cover' src={`http://127.0.0.1:4000/uploads/${images?.[currentIndex]}`} alt="/home" />
+        <Image className=' aspect-square object-cover' src={images?.[currentIndex]} />
       </Link>
     {/* {
         images.map((image, index)=>{

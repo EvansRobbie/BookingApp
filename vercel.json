@@ -1,0 +1,11 @@
+{
+  "buildCommand": "cd frontend ; npm install ; ./node_modules/vite/bin/vite.js build ",
+  "outputDirectory": "frontend/dist",
+  "framework": "vite",
+  "rewrite":[
+    {
+        "source": "/backend/(.*)",
+        "destination": "/backend/index.js"
+    }
+]
+}

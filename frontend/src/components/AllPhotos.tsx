@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from './Image'
 // type placeProp = {
 //     images:string[]
 // }
@@ -21,7 +22,7 @@ const AllPhotos:React.FC<photoProp> = ({images = [], setShowAllPhotos}) => {
                 {images && images.map((image, index)=>{
                     return (
                         <div key={index} className=" w-9/12 md:w-7/12 md:h-[70vh] overflow-hidden hover:brightness-75 duration-300 ease-in">
-                            <img className=" aspect-square w-full h-full" src={`http://127.0.0.1:4000/uploads/${image }`} alt="" />
+                            <Image className=" aspect-square w-full h-full" src={image }/>
                         </div>
                     )
                 })}

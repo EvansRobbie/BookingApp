@@ -1,8 +1,10 @@
 import React from 'react'
+import Image from './Image'
 interface photoProp {
     images: string[] | undefined
     // images:string[]
     setShowAllPhotos: React.Dispatch<React.SetStateAction<boolean>>
+    
   }
 
 const Gallery:React.FC<photoProp> = ({images= [], setShowAllPhotos}) => {
@@ -12,42 +14,42 @@ const Gallery:React.FC<photoProp> = ({images= [], setShowAllPhotos}) => {
         <div className=" grid grid-cols-1 md:grid-cols-2 gap-2 py-5">
             <div className="flex h-[55vh] rounded-t-2xl md:rounded-t-none md:rounded-tl-2xl md:rounded-bl-2xl overflow-hidden">
             {images?.[0] && (
-                <img onClick={()=>setShowAllPhotos(true)}
+                <Image onClick={()=>setShowAllPhotos(true)}
                 className=" hover:brightness-75 cursor-pointer duration-300 ease-in  w-full h-full"
-                src={`http://127.0.0.1:4000/uploads/${images[0]}`}
-                alt="/"
+              src={images[0]}
+                
                 />
             )}
             </div>
             <div className="grid grid-cols-2 gap-2 ">
             {images?.[1] && (
                 
-                <img onClick={()=>setShowAllPhotos(true)}
+                <Image onClick={()=>setShowAllPhotos(true)}
                 className=" hover:brightness-75 cursor-pointer duration-300 ease-in aspect-[1.4]  md:aspect-[1.75] h-full object-fill "
-                src={`http://127.0.0.1:4000/uploads/${images[1]}`}
-                alt="/"
+              src={images[1]}
+             
                 />
             )}
 
             {images?.[2] && (
-                <img onClick={()=>setShowAllPhotos(true)}
+                <Image onClick={()=>setShowAllPhotos(true)}
                 className=" hover:brightness-75 cursor-pointer duration-300 ease-in aspect-[1.4]  md:aspect-[1.75] object-fill h-full md:rounded-tr-2xl overflow-hidden"
-                src={`http://127.0.0.1:4000/uploads/${images[2]}`}
-                alt="/"
+              src={images[2]}
+                
                 />
             )}
             {images?.[3] && (
-                <img onClick={()=>setShowAllPhotos(true)}
+                <Image onClick={()=>setShowAllPhotos(true)}
                 className=" hover:brightness-75 cursor-pointer rounded-bl-2xl md:rounded-none  duration-300 ease-in h-full"
-                src={`http://127.0.0.1:4000/uploads/${images[3]}`}
-                alt="/"
+              src={images[3]}
+                
                 />
             )}
             {images?.[4] && (
-                <img onClick={()=>setShowAllPhotos(true)}
+                <Image onClick={()=>setShowAllPhotos(true)}
                 className=" hover:brightness-75 cursor-pointer duration-300 ease-in  h-full rounded-br-2xl  md:rounded-br-2xl overflow-hidden"
-                src={`http://127.0.0.1:4000/uploads/${images[4]}`}
-                alt="/"
+              src={images[4]}
+             
                 />
             )}
             </div>

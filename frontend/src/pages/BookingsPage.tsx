@@ -1,9 +1,10 @@
 import axios from "axios"
-import { differenceInCalendarDays, format } from "date-fns"
+// import { differenceInCalendarDays, format } from "date-fns"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { Tilt } from "react-tilt"
 import BookDates from "../components/BookDates"
+import Image from "../components/Image"
 interface bookProps{
     _id: string
     checkin:string
@@ -35,7 +36,7 @@ const BookingsPage = () => {
                 <Link to={`/account/bookings/${_id}`} key={_id} className=" relative border min-h-[48vh] sm:min-h-[35vh] md:min-h-[27vh]  lg:min-h-[50vh] xl:min-h-[45vh] xl:w-64 sm:w-60 md:w-60 lg:w-56 bg-gray-200 bg-opacity-50  shadow shadow-gray-500 rounded-3xl ">
                     <Tilt options={defaultOptions}>
                         <div  className=" absolute top-0 left-[50%] drop-shadow-2xl h-[33vh] sm:h-[25vh] md:h-[20vh] lg:h-[30vh] w-72 sm:w-36 md:w-40 xl:w-44 -translate-y-[50%] -translate-x-[50%] rounded-2xl overflow-hidden" >
-                             <img className="object-cover w-full h-full" src={`http://127.0.0.1:4000/uploads/${place.images[0]}`} alt="" />
+                             <Image className="object-cover w-full h-full" src={place.images[0]} />
                         </div>
                     </Tilt>
                     <div className=" flex flex-col w-full h-full  px-4 justify-center my-14 sm:my-10">
